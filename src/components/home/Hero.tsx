@@ -24,37 +24,24 @@ export function Hero() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Typing animation states
+  // Typing animation for the main title ONLY
   const fullTitle = "Find Local Businesses Near You";
   const fullSubtitle = "Discover amazing local businesses. From restaurants to services, find everything with just one search.";
   const [titleText, setTitleText] = useState("");
-  const [subtitleText, setSubtitleText] = useState("");
+  const [showSubtitle, setShowSubtitle] = useState(false);
 
   useEffect(() => {
     let titleIndex = 0;
-    let subtitleIndex = 0;
-
-    // Animate title typing
     const titleInterval = setInterval(() => {
       setTitleText(fullTitle.substr(0, titleIndex));
       titleIndex++;
       if (titleIndex > fullTitle.length) {
         clearInterval(titleInterval);
-        // After title done, start subtitle
-        const subtitleInterval = setInterval(() => {
-          setSubtitleText(fullSubtitle.substr(0, subtitleIndex));
-          subtitleIndex++;
-          if (subtitleIndex > fullSubtitle.length) {
-            clearInterval(subtitleInterval);
-          }
-        }, 30);
+        setShowSubtitle(true);
       }
     }, 50);
 
-    // Cleanup
-    return () => {
-      clearInterval(titleInterval);
-    };
+    return () => clearInterval(titleInterval);
   }, []);
 
   const handleSearch = () => {
@@ -79,7 +66,7 @@ export function Hero() {
         </span>
       </h1>
       <p className="text-base sm:text-lg md:text-xl mb-8 max-w-2xl text-gray-700 whitespace-pre-wrap">
-        <span className="animated-gradient">{subtitleText}</span>
+        {showSubtitle && fullSubtitle}
       </p>
 
       <div className="w-full max-w-4xl mb-10">
