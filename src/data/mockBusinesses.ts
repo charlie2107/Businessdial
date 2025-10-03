@@ -1,0 +1,447 @@
+export const mockBusinesses = [
+  // Restaurants
+  {
+    id: 1,
+    name: "Royal Biryani House",
+    category: "Restaurants",
+    categorySlug: "restaurants",
+    image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=300&fit=crop",
+    rating: 4.8,
+    reviews: 1250,
+    address: "Bandra West, Mumbai",
+    phone: "+91 98765 43210",
+    isOpen: true,
+    verified: true,
+    description: "Authentic Hyderabadi biryani and Mughlai cuisine. Family recipes passed down for generations."
+  },
+  {
+    id: 2,
+    name: "Cafe Delight",
+    category: "Restaurants",
+    categorySlug: "restaurants",
+    image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=300&fit=crop",
+    rating: 4.6,
+    reviews: 890,
+    address: "Koramangala, Bangalore",
+    phone: "+91 98765 43213",
+    isOpen: true,
+    verified: true,
+    description: "Cozy cafe with artisan coffee, fresh pastries, and healthy breakfast options."
+  },
+  {
+    id: 3,
+    name: "Spice Garden",
+    category: "Restaurants",
+    categorySlug: "restaurants",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 1100,
+    address: "Indiranagar, Bangalore",
+    phone: "+91 98765 43214",
+    isOpen: false,
+    verified: true,
+    description: "Traditional South Indian cuisine with modern twist. Pure vegetarian dining experience."
+  },
+  
+  // Shopping
+  {
+    id: 4,
+    name: "Fashion Hub",
+    category: "Shopping",
+    categorySlug: "shopping",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
+    rating: 4.5,
+    reviews: 750,
+    address: "Commercial Street, Bangalore",
+    phone: "+91 98765 43215",
+    isOpen: true,
+    verified: true,
+    description: "Latest fashion trends and accessories for men and women."
+  },
+  {
+    id: 5,
+    name: "Tech Store Pro",
+    category: "Shopping",
+    categorySlug: "shopping",
+    image: "https://images.unsplash.com/photo-1491933382434-500287f9b54b?w=400&h=300&fit=crop",
+    rating: 4.8,
+    reviews: 920,
+    address: "MG Road, Pune",
+    phone: "+91 98765 43216",
+    isOpen: true,
+    verified: true,
+    description: "Latest gadgets, smartphones, laptops, and accessories with warranty."
+  },
+
+  // Automotive
+  {
+    id: 6,
+    name: "Auto Care Center",
+    category: "Automotive",
+    categorySlug: "automotive",
+    image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 650,
+    address: "Whitefield, Bangalore",
+    phone: "+91 98765 43217",
+    isOpen: true,
+    verified: true,
+    description: "Complete car servicing, repair, and maintenance with certified technicians."
+  },
+  {
+    id: 7,
+    name: "Bike Masters",
+    category: "Automotive",
+    categorySlug: "automotive",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+    rating: 4.6,
+    reviews: 580,
+    address: "HSR Layout, Bangalore",
+    phone: "+91 98765 43218",
+    isOpen: true,
+    verified: true,
+    description: "Expert motorcycle service, spare parts, and customization."
+  },
+
+  // Healthcare
+  {
+    id: 8,
+    name: "City Health Clinic",
+    category: "Healthcare",
+    categorySlug: "healthcare",
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=300&fit=crop",
+    rating: 4.9,
+    reviews: 1450,
+    address: "Jayanagar, Bangalore",
+    phone: "+91 98765 43219",
+    isOpen: true,
+    verified: true,
+    description: "Multi-specialty clinic with experienced doctors and modern facilities."
+  },
+  {
+    id: 9,
+    name: "Dental Care Plus",
+    category: "Healthcare",
+    categorySlug: "healthcare",
+    image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400&h=300&fit=crop",
+    rating: 4.8,
+    reviews: 980,
+    address: "Malleswaram, Bangalore",
+    phone: "+91 98765 43220",
+    isOpen: false,
+    verified: true,
+    description: "Advanced dental treatments, cosmetic dentistry, and emergency care."
+  },
+
+  // Education
+  {
+    id: 10,
+    name: "Bright Future Academy",
+    category: "Education",
+    categorySlug: "education",
+    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 870,
+    address: "Marathahalli, Bangalore",
+    phone: "+91 98765 43221",
+    isOpen: true,
+    verified: true,
+    description: "Coaching for competitive exams with experienced faculty and proven results."
+  },
+  {
+    id: 11,
+    name: "Kids Learning Center",
+    category: "Education",
+    categorySlug: "education",
+    image: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&h=300&fit=crop",
+    rating: 4.8,
+    reviews: 720,
+    address: "Rajajinagar, Bangalore",
+    phone: "+91 98765 43222",
+    isOpen: true,
+    verified: true,
+    description: "Play school and pre-primary education with focus on holistic development."
+  },
+
+  // Home Services
+  {
+    id: 12,
+    name: "Fix It Now",
+    category: "Home Services",
+    categorySlug: "home-services",
+    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop",
+    rating: 4.6,
+    reviews: 890,
+    address: "Andheri East, Mumbai",
+    phone: "+91 98765 43211",
+    isOpen: true,
+    verified: true,
+    description: "Plumbing, electrical, and home repair services available 24/7."
+  },
+  {
+    id: 13,
+    name: "Clean Home Services",
+    category: "Home Services",
+    categorySlug: "home-services",
+    image: "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 650,
+    address: "Bellandur, Bangalore",
+    phone: "+91 98765 43223",
+    isOpen: true,
+    verified: true,
+    description: "Professional home cleaning, deep cleaning, and sanitization services."
+  },
+
+  // Beauty & Spa
+  {
+    id: 14,
+    name: "Green Salon & Spa",
+    category: "Beauty & Spa",
+    categorySlug: "beauty-spa",
+    image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop",
+    rating: 4.9,
+    reviews: 650,
+    address: "Powai, Mumbai",
+    phone: "+91 98765 43212",
+    isOpen: false,
+    verified: true,
+    description: "Premium salon services using organic products. Hair, beauty, and wellness treatments."
+  },
+  {
+    id: 15,
+    name: "Glow Beauty Parlour",
+    category: "Beauty & Spa",
+    categorySlug: "beauty-spa",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop",
+    rating: 4.6,
+    reviews: 540,
+    address: "Yelahanka, Bangalore",
+    phone: "+91 98765 43224",
+    isOpen: true,
+    verified: true,
+    description: "Bridal makeup, hair styling, and beauty treatments for all occasions."
+  },
+
+  // Real Estate
+  {
+    id: 16,
+    name: "Prime Properties",
+    category: "Real Estate",
+    categorySlug: "real-estate",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 430,
+    address: "Electronic City, Bangalore",
+    phone: "+91 98765 43225",
+    isOpen: true,
+    verified: true,
+    description: "Residential and commercial property sales, rentals, and consultation."
+  },
+  {
+    id: 17,
+    name: "Dream Home Realty",
+    category: "Real Estate",
+    categorySlug: "real-estate",
+    image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400&h=300&fit=crop",
+    rating: 4.8,
+    reviews: 520,
+    address: "Kharadi, Pune",
+    phone: "+91 98765 43226",
+    isOpen: true,
+    verified: true,
+    description: "Trusted real estate agents specializing in luxury apartments and villas."
+  },
+
+  // Fashion
+  {
+    id: 18,
+    name: "Trendy Boutique",
+    category: "Fashion",
+    categorySlug: "fashion",
+    image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=300&fit=crop",
+    rating: 4.5,
+    reviews: 380,
+    address: "Linking Road, Mumbai",
+    phone: "+91 98765 43227",
+    isOpen: true,
+    verified: true,
+    description: "Designer wear, ethnic fashion, and custom tailoring for special occasions."
+  },
+  {
+    id: 19,
+    name: "Urban Style Store",
+    category: "Fashion",
+    categorySlug: "fashion",
+    image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 690,
+    address: "Brigade Road, Bangalore",
+    phone: "+91 98765 43228",
+    isOpen: true,
+    verified: true,
+    description: "Contemporary fashion for men and women with international brands."
+  },
+
+  // Home & Garden
+  {
+    id: 20,
+    name: "Garden Paradise",
+    category: "Home & Garden",
+    categorySlug: "home-garden",
+    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop",
+    rating: 4.6,
+    reviews: 420,
+    address: "Sarjapur Road, Bangalore",
+    phone: "+91 98765 43229",
+    isOpen: true,
+    verified: true,
+    description: "Plants, gardening tools, landscaping services, and expert advice."
+  },
+  {
+    id: 21,
+    name: "Home Decor Hub",
+    category: "Home & Garden",
+    categorySlug: "home-garden",
+    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400&h=300&fit=crop",
+    rating: 4.8,
+    reviews: 560,
+    address: "Kormangala, Bangalore",
+    phone: "+91 98765 43230",
+    isOpen: true,
+    verified: true,
+    description: "Furniture, home accessories, and interior design consultation."
+  },
+
+  // Fitness
+  {
+    id: 22,
+    name: "PowerFit Gym",
+    category: "Fitness",
+    categorySlug: "fitness",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 780,
+    address: "JP Nagar, Bangalore",
+    phone: "+91 98765 43231",
+    isOpen: true,
+    verified: true,
+    description: "Modern gym with certified trainers, cardio, and strength training equipment."
+  },
+  {
+    id: 23,
+    name: "Yoga Wellness Center",
+    category: "Fitness",
+    categorySlug: "fitness",
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop",
+    rating: 4.9,
+    reviews: 920,
+    address: "Sadashivanagar, Bangalore",
+    phone: "+91 98765 43232",
+    isOpen: true,
+    verified: true,
+    description: "Yoga classes, meditation, and holistic wellness programs for all ages."
+  },
+
+  // Photography
+  {
+    id: 24,
+    name: "Perfect Moments Studio",
+    category: "Photography",
+    categorySlug: "photography",
+    image: "https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=400&h=300&fit=crop",
+    rating: 4.8,
+    reviews: 640,
+    address: "Indira Nagar, Bangalore",
+    phone: "+91 98765 43233",
+    isOpen: true,
+    verified: true,
+    description: "Wedding photography, portraits, events, and commercial shoots."
+  },
+  {
+    id: 25,
+    name: "Creative Lens Photography",
+    category: "Photography",
+    categorySlug: "photography",
+    image: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 490,
+    address: "Banjara Hills, Hyderabad",
+    phone: "+91 98765 43234",
+    isOpen: true,
+    verified: true,
+    description: "Professional photography and videography for all occasions."
+  },
+
+  // Additional businesses for variety
+  {
+    id: 26,
+    name: "Quick Bites",
+    category: "Restaurants",
+    categorySlug: "restaurants",
+    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop",
+    rating: 4.4,
+    reviews: 530,
+    address: "Viman Nagar, Pune",
+    phone: "+91 98765 43235",
+    isOpen: true,
+    verified: true,
+    description: "Fast food, burgers, pizzas, and quick service restaurant."
+  },
+  {
+    id: 27,
+    name: "BookWorld",
+    category: "Shopping",
+    categorySlug: "shopping",
+    image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400&h=300&fit=crop",
+    rating: 4.6,
+    reviews: 470,
+    address: "Church Street, Bangalore",
+    phone: "+91 98765 43236",
+    isOpen: true,
+    verified: true,
+    description: "New and used books, stationery, and educational materials."
+  },
+  {
+    id: 28,
+    name: "CarWash Express",
+    category: "Automotive",
+    categorySlug: "automotive",
+    image: "https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=400&h=300&fit=crop",
+    rating: 4.5,
+    reviews: 390,
+    address: "Mysore Road, Bangalore",
+    phone: "+91 98765 43237",
+    isOpen: true,
+    verified: true,
+    description: "Professional car wash, detailing, and interior cleaning services."
+  },
+  {
+    id: 29,
+    name: "Physio Care Center",
+    category: "Healthcare",
+    categorySlug: "healthcare",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop",
+    rating: 4.8,
+    reviews: 670,
+    address: "Banaswadi, Bangalore",
+    phone: "+91 98765 43238",
+    isOpen: true,
+    verified: true,
+    description: "Physiotherapy, sports injury rehabilitation, and pain management."
+  },
+  {
+    id: 30,
+    name: "Music Academy",
+    category: "Education",
+    categorySlug: "education",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+    rating: 4.7,
+    reviews: 510,
+    address: "RT Nagar, Bangalore",
+    phone: "+91 98765 43239",
+    isOpen: true,
+    verified: true,
+    description: "Music classes for all instruments, vocal training, and music theory."
+  }
+];

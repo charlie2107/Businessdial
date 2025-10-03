@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Local Business Directory Design System
+Professional, trustworthy design for Indian business market
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Base colors */
+    --background: 0 0% 100%;
+    --foreground: 215 27% 16%;
+
+    /* Business directory brand colors */
+    --primary: 214 84% 56%;          /* Professional blue */
+    --primary-foreground: 0 0% 98%;
+    --primary-light: 214 84% 70%;    /* Lighter blue for hovers */
+    
+    /* CTA and accent colors */
+    --cta: 25 95% 53%;               /* Orange for CTAs */
+    --cta-foreground: 0 0% 98%;
+    --cta-hover: 25 95% 48%;
+    
+    /* Success and trust colors */
+    --success: 142 71% 45%;          /* Green for verified businesses */
+    --success-foreground: 0 0% 98%;
+    
+    /* Card and surface colors */
+    --card: 0 0% 100%;
+    --card-foreground: 215 27% 16%;
+    --card-hover: 210 40% 98%;
+    
+    /* Secondary surfaces */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 215 27% 16%;
+    
+    /* Muted content */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    /* Accents */
+    --accent: 210 40% 96%;
+    --accent-foreground: 215 27% 16%;
+    
+    /* States */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Borders and inputs */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 214 84% 56%;
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(214 84% 56%) 0%, hsl(214 84% 70%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(25 95% 53%) 0%, hsl(25 95% 48%) 100%);
+    --gradient-business: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(210 40% 98%) 100%);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Base colors */
+    --background: 215 27% 8%;
+    --foreground: 210 40% 98%;
+
+    /* Business directory brand colors */
+    --primary: 214 84% 70%;
+    --primary-foreground: 215 27% 8%;
+    --primary-light: 214 84% 80%;
+    
+    /* CTA colors */
+    --cta: 25 95% 58%;
+    --cta-foreground: 215 27% 8%;
+    --cta-hover: 25 95% 53%;
+    
+    /* Success colors */
+    --success: 142 71% 55%;
+    --success-foreground: 215 27% 8%;
+    
+    /* Card colors */
+    --card: 217.2 32.6% 12%;
+    --card-foreground: 210 40% 98%;
+    --card-hover: 217.2 32.6% 15%;
+    
+    /* Secondary colors */
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Muted colors */
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    /* Accents */
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    
+    /* States */
+    --destructive: 0 62.8% 50.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Borders */
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 214 84% 70%;
+    
+    /* Dark gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(214 84% 56%) 0%, hsl(214 84% 45%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(25 95% 58%) 0%, hsl(25 95% 48%) 100%);
+    --gradient-business: linear-gradient(135deg, hsl(217.2 32.6% 12%) 0%, hsl(217.2 32.6% 15%) 100%);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
