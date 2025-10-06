@@ -11,7 +11,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { submitBusinessListing } from "@/contexts/businessService";
+import { submitBusinessListing } from "@/contexts/BusinessService";
 
 const benefits = [
   "Lifetime listing - No monthly fees",

@@ -9,7 +9,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { getBusinessById } from "@/contexts/businessService";
+import { getBusinessById } from "@/contexts/BusinessService";
 
 const BusinessDetail = () => {
   const { id } = useParams();

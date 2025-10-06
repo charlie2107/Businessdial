@@ -3,7 +3,7 @@ import { Star, MapPin, Phone, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllBusinesses } from "@/contexts/businessService";
+import { getAllBusinesses } from "@/contexts/BusinessService";
 
 export function FeaturedBusinesses() {
   const [businesses, setBusinesses] = useState<any[]>([]);
