@@ -1,39 +1,57 @@
-import { 
-  UtensilsCrossed, 
-  ShoppingBag, 
-  Car, 
-  Stethoscope, 
-  GraduationCap, 
-  Wrench,
-  Scissors,
-  Building2,
-  Shirt,
-  Home,
-  Dumbbell,
-  Camera
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import * as LucideIcons from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-const categories = [
-  { name: "Restaurants", icon: UtensilsCrossed, count: "2,450+", slug: "restaurants" },
-  { name: "Shopping", icon: ShoppingBag, count: "1,890+", slug: "shopping" },
-  { name: "Automotive", icon: Car, count: "980+", slug: "automotive" },
-  { name: "Healthcare", icon: Stethoscope, count: "1,200+", slug: "healthcare" },
-  { name: "Education", icon: GraduationCap, count: "750+", slug: "education" },
-  { name: "Home Services", icon: Wrench, count: "1,500+", slug: "home-services" },
-  { name: "Beauty & Spa", icon: Scissors, count: "890+", slug: "beauty-spa" },
-  { name: "Real Estate", icon: Building2, count: "650+", slug: "real-estate" },
-  { name: "Fashion", icon: Shirt, count: "1,100+", slug: "fashion" },
-  { name: "Home & Garden", icon: Home, count: "780+", slug: "home-garden" },
-  { name: "Fitness", icon: Dumbbell, count: "520+", slug: "fitness" },
-  { name: "Photography", icon: Camera, count: "380+", slug: "photography" },
-];
+// Category interface from API
+interface CategorySummary {
+  _id: string;
+  name: string;
+  slug: string;
+  icon: string;
+  count: number;
+}
 
 export function Categories() {
+  const [categories, setCategories] = useState<CategorySummary[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/categories");
+      const data: CategorySummary[] = await res.json();
+      setCategories(data);
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-16 text-center">
+        <p>Loading categories...</p>
+      </section>
+    );
+  }
+
+  if (categories.length === 0) {
+    return (
+      <section className="py-16 text-center">
+        <p>No categories found.</p>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 bg-secondary/50">
       <div className="container mx-auto px-4">
+        {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Explore Business Categories
@@ -44,14 +62,14 @@ export function Categories() {
           </p>
         </div>
 
+        {/* Category Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
           {categories.map((category) => {
-            const IconComponent = category.icon;
+            const IconComponent =
+              (LucideIcons as any)[category.icon] || LucideIcons.HelpCircle;
+
             return (
-              <Link
-                key={category.name}
-                to={`/category/${category.slug}`}
-              >
+              <Link key={category._id} to={`/category/${category.slug}`}>
                 <Button
                   variant="business"
                   className="h-auto flex-col p-6 space-y-3 text-center w-full"
@@ -61,7 +79,9 @@ export function Categories() {
                   </div>
                   <div>
                     <div className="font-semibold text-sm">{category.name}</div>
-                    <div className="text-xs text-muted-foreground">{category.count}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {category.count > 0 ? `${category.count}+` : "0"}
+                    </div>
                   </div>
                 </Button>
               </Link>
@@ -69,6 +89,7 @@ export function Categories() {
           })}
         </div>
 
+        {/* View All Button */}
         <div className="text-center mt-12">
           <Button variant="outline" size="lg" asChild>
             <Link to="/categories">View All Categories</Link>

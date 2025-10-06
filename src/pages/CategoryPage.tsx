@@ -1,21 +1,78 @@
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Star, MapPin, Phone, Clock, ExternalLink } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { mockBusinesses } from "@/data/mockBusinesses";
+
+// Interfaces for API response
+interface Category {
+  _id: string;
+  name: string;
+  icon: string;
+  slug: string;
+  description: string;
+}
+
+interface Business {
+  _id: string;
+  name: string;
+  image: string;
+  description: string;
+  address: string;
+  phone: string;
+  rating: number;
+  reviews: number;
+  verified: boolean;
+  isOpen: boolean;
+}
+
+interface CategoryResponse {
+  category: Category;
+  businesses: Business[];
+  count: number;
+}
 
 const CategoryPage = () => {
-  const { slug } = useParams();
-  
-  // Filter businesses by category
-  const categoryBusinesses = mockBusinesses.filter(
-    business => business.categorySlug === slug
-  );
+  const { slug } = useParams<{ slug: string }>();
+  const [categoryData, setCategoryData] = useState<CategoryResponse | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Get category name
-  const categoryName = categoryBusinesses[0]?.category || "Category";
+  const fetchCategory = async () => {
+    try {
+      const res = await fetch(`http://localhost:3001/business/category/${slug}`);
+      const data: CategoryResponse = await res.json();
+      setCategoryData(data?.category ? data : null);
+      console.log(data);
+    } catch (err) {
+      console.error("Error fetching category:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategory();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <section className="py-16 text-center">
+        <p>Loading category...</p>
+      </section>
+    );
+  }
+
+  if (!categoryData) {
+    return (
+      <section className="py-16 text-center">
+        <p>Category not found.</p>
+      </section>
+    );
+  }
+
+  const { category, businesses } = categoryData;
 
   return (
     <div className="min-h-screen bg-background">
@@ -24,32 +81,30 @@ const CategoryPage = () => {
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {categoryName}
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{category.name}</h1>
             <p className="text-xl text-muted-foreground">
-              Showing {categoryBusinesses.length} businesses in {categoryName}
+              Showing {categoryData.count} businesses in {category.name}
             </p>
           </div>
 
           {/* Businesses Grid */}
-          {categoryBusinesses.length > 0 ? (
+          {businesses.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {categoryBusinesses.map((business) => (
-                <div 
-                  key={business.id}
+              {businesses.map((business) => (
+                <div
+                  key={business._id}
                   className="bg-card rounded-lg border overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                 >
                   {/* Business Image */}
                   <div className="relative h-48 overflow-hidden">
-                    <img 
+                    <img
                       src={business.image}
                       alt={business.name}
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute top-4 left-4">
                       <Badge variant="secondary" className="bg-background/90">
-                        {business.category}
+                        {category.name}
                       </Badge>
                     </div>
                     {business.verified && (
@@ -102,7 +157,7 @@ const CategoryPage = () => {
                         </a>
                       </Button>
                       <Button variant="outline" size="sm" className="flex-1" asChild>
-                        <Link to={`/business/${business.id}`}>
+                        <Link to={`/business/${business._id}`}>
                           <ExternalLink className="h-4 w-4 mr-2" />
                           View
                         </Link>

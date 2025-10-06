@@ -11,28 +11,42 @@ import CategoryPage from "./pages/CategoryPage";
 import NotFound from "./pages/NotFound";
 import Signup from "./pages/AuthPages/SignUp";
 import SignIn from "./pages/AuthPages/SignIn";
+import ForgetPass from "./pages/AuthPages/ForgetPass";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/business/:id" element={<BusinessDetail />} />
-          <Route path="/list-business" element={<ListingPage />} />
-          <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/category/:slug" element={<CategoryPage />} />
-          <Route path="/sign-up" element={<Signup />} />
-           <Route path="/sign-in" element={<SignIn />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/business/:id" element={<BusinessDetail />} />
+            <Route path="/categories" element={<CategoriesPage />} />
+            <Route path="/category/:slug" element={<CategoryPage />} />
+            <Route path="/sign-up" element={<Signup />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/forgot-password" element={<ForgetPass />} />
+            <Route path="/reset-password" element={<ForgetPass />} />
+            
+            {/* Protected routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/list-business" element={<ListingPage />} />
+              {/* Add more protected routes here */}
+            </Route>
+            
+            {/* Catch-all route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

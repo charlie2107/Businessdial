@@ -1,38 +1,47 @@
-import { Link } from "react-router-dom";
-import { 
-  UtensilsCrossed, 
-  ShoppingBag, 
-  Car, 
-  Stethoscope, 
-  GraduationCap, 
-  Wrench,
-  Scissors,
-  Building2,
-  Shirt,
-  Home,
-  Dumbbell,
-  Camera
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import * as LucideIcons from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
-const categories = [
-  { name: "Restaurants", icon: UtensilsCrossed, count: "2,450+", slug: "restaurants" },
-  { name: "Shopping", icon: ShoppingBag, count: "1,890+", slug: "shopping" },
-  { name: "Automotive", icon: Car, count: "980+", slug: "automotive" },
-  { name: "Healthcare", icon: Stethoscope, count: "1,200+", slug: "healthcare" },
-  { name: "Education", icon: GraduationCap, count: "750+", slug: "education" },
-  { name: "Home Services", icon: Wrench, count: "1,500+", slug: "home-services" },
-  { name: "Beauty & Spa", icon: Scissors, count: "890+", slug: "beauty-spa" },
-  { name: "Real Estate", icon: Building2, count: "650+", slug: "real-estate" },
-  { name: "Fashion", icon: Shirt, count: "1,100+", slug: "fashion" },
-  { name: "Home & Garden", icon: Home, count: "780+", slug: "home-garden" },
-  { name: "Fitness", icon: Dumbbell, count: "520+", slug: "fitness" },
-  { name: "Photography", icon: Camera, count: "380+", slug: "photography" },
-];
+// Category interface from API
+interface CategorySummary {
+  _id: string;
+  name: string;
+  slug: string;
+  icon: string;
+  count: number;
+}
 
 const CategoriesPage = () => {
+  const [categories, setCategories] = useState<CategorySummary[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/categories");
+      const data: CategorySummary[] = await res.json();
+      setCategories(data);
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Loading categories...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -43,19 +52,16 @@ const CategoriesPage = () => {
               Browse All Categories
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Explore local businesses organized by category. Find the services 
-              and products you need in your area.
+              Explore local businesses organized by category. Find the services and products you need in your area.
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {categories.map((category) => {
-              const IconComponent = category.icon;
+              const IconComponent =
+                LucideIcons[category.icon as keyof typeof LucideIcons] || LucideIcons.HelpCircle;
               return (
-                <Link
-                  key={category.slug}
-                  to={`/category/${category.slug}`}
-                >
+                <Link key={category._id} to={`/category/${category._id}`}>
                   <Button
                     variant="business"
                     className="h-auto flex-col p-6 space-y-3 text-center w-full"
@@ -65,7 +71,7 @@ const CategoriesPage = () => {
                     </div>
                     <div>
                       <div className="font-semibold text-base">{category.name}</div>
-                      <div className="text-sm text-muted-foreground">{category.count}</div>
+                      <div className="text-sm text-muted-foreground">{category.count}+</div>
                     </div>
                   </Button>
                 </Link>
