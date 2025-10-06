@@ -17,7 +17,8 @@ interface ForgotPasswordData {
 
 interface ResetPasswordData {
   token: string;
-  password: string;
+  email: string;
+  newPassword: string;
 }
 
 export const authService = {

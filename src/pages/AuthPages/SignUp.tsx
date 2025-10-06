@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { PageLoader } from "@/components/ui/loader";
 
 const Signup: React.FC = () => {
   const [fullName, setFullName] = useState("");
@@ -11,14 +12,14 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const { register } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
       toast({
         title: "Error",
@@ -27,11 +28,11 @@ const Signup: React.FC = () => {
       });
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     try {
-      await register(email, password, fullName); // send fullName
+      await register(email, password, fullName);
       toast({
         title: "Success",
         description: "Account created successfully",
@@ -40,7 +41,8 @@ const Signup: React.FC = () => {
     } catch (err: any) {
       toast({
         title: "Error",
-        description: err.response?.data?.message || "Failed to create account",
+        description:
+          err.response?.data?.message || "Failed to create account",
         variant: "destructive",
       });
     } finally {
@@ -49,14 +51,23 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background">
+      {/* Page Loader Overlay */}
+      {isSubmitting && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm">
+          <PageLoader />
+        </div>
+      )}
+
       <Header />
+
       <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
         <div className="max-w-5xl w-full grid md:grid-cols-2 gap-8 bg-white rounded-2xl shadow-lg overflow-hidden">
-          
           {/* Left Section - Signup Form */}
           <div className="p-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Create Your Account</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              Create Your Account
+            </h2>
             <p className="text-gray-500 mb-6">
               Join us today and grow your business online.
             </p>
@@ -153,6 +164,7 @@ const Signup: React.FC = () => {
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

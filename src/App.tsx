@@ -14,6 +14,7 @@ import SignIn from "./pages/AuthPages/SignIn";
 import ForgetPass from "./pages/AuthPages/ForgetPass";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import ResetPassword from "./pages/AuthPages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +34,7 @@ const App = () => (
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/forgot-password" element={<ForgetPass />} />
-            <Route path="/reset-password" element={<ForgetPass />} />
+           <Route path="/reset-password" element={<ResetPassword />} />
             
             {/* Protected routes */}
             <Route element={<ProtectedRoute />}>

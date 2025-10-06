@@ -9,24 +9,37 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { getBusinessById } from "@/contexts/BusinessService";
+import { getBusinessById, getBusinessReviews, addBusinessReview } from "@/contexts/BusinessService";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const BusinessDetail = () => {
   const { id } = useParams();
+  const { user } = useAuth(); // Assuming user context provides current logged-in user
+  const { toast } = useToast();
+
   const [business, setBusiness] = useState<any>(null);
+  const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewRating, setReviewRating] = useState(0);
+  const [submittingReview, setSubmittingReview] = useState(false);
 
   // Lightbox state
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string>("");
 
   useEffect(() => {
-    const fetchBusiness = async () => {
+    const fetchBusinessData = async () => {
       try {
         if (!id) return;
         const data = await getBusinessById(id);
         setBusiness(data);
+
+        const reviewData = await getBusinessReviews(id);
+        setReviews(reviewData);
       } catch (err) {
         console.error(err);
         setError("Failed to load business details");
@@ -34,7 +47,7 @@ const BusinessDetail = () => {
         setLoading(false);
       }
     };
-    fetchBusiness();
+    fetchBusinessData();
   }, [id]);
 
   const openLightbox = (image: string) => {
@@ -45,6 +58,41 @@ const BusinessDetail = () => {
   const closeLightbox = () => {
     setLightboxOpen(false);
     setLightboxImage("");
+  };
+
+  const handleSubmitReview = async () => {
+    if (!user) {
+      toast({ title: "Error", description: "Please login to submit a review", variant: "destructive" });
+      return;
+    }
+
+   const existingReview = reviews.find(r => r.user._id === (user as any)._id);
+    if (existingReview) {
+      toast({ title: "Error", description: "You have already submitted a review", variant: "destructive" });
+      return;
+    }
+
+    if (!reviewComment || reviewRating <= 0) {
+      toast({ title: "Error", description: "Please provide rating and comment", variant: "destructive" });
+      return;
+    }
+
+    setSubmittingReview(true);
+    try {
+      const newReview = await addBusinessReview(id!, {
+        userId: (user as any)._id,
+        rating: reviewRating,
+        comment: reviewComment,
+      });
+      setReviews(prev => [...prev, newReview]);
+      setReviewComment("");
+      setReviewRating(0);
+      toast({ title: "Success", description: "Review submitted successfully" });
+    } catch (err: any) {
+      toast({ title: "Error", description: err?.message || "Failed to submit review", variant: "destructive" });
+    } finally {
+      setSubmittingReview(false);
+    }
   };
 
   if (loading) {
@@ -177,12 +225,56 @@ const BusinessDetail = () => {
         {/* Reviews Section */}
         <Card className="p-6">
           <h2 className="text-xl font-semibold mb-4">Customer Reviews</h2>
+
+          {/* Write Review */}
           <div className="border rounded-lg p-4 mb-6">
             <h3 className="font-medium mb-3">Write a Review</h3>
-            <Textarea placeholder="Share your experience..." className="mb-3" />
-            <Button>Submit Review</Button>
+            <div className="space-y-2">
+              <Textarea
+                placeholder="Share your experience..."
+                className="mb-2"
+                value={reviewComment}
+                onChange={(e) => setReviewComment(e.target.value)}
+              />
+              <input
+                type="number"
+                min={1}
+                max={5}
+                placeholder="Rating (1-5)"
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                value={reviewRating}
+                onChange={(e) => setReviewRating(Number(e.target.value))}
+              />
+            </div>
+            <Button
+              className="mt-2"
+              onClick={handleSubmitReview}
+              disabled={submittingReview}
+            >
+              {submittingReview ? "Submitting..." : "Submit Review"}
+            </Button>
           </div>
-          <p className="text-muted-foreground text-sm">No reviews yet.</p>
+
+          {/* Display Reviews */}
+          {reviews.length === 0 ? (
+            <p className="text-muted-foreground text-sm">No reviews yet.</p>
+          ) : (
+            <div className="space-y-4">
+              {reviews.map((rev) => (
+                <div key={rev._id} className="border rounded-lg p-3">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-medium">{rev.user?.name || "Anonymous"}</span>
+                    <span className="flex items-center gap-1 text-yellow-500">
+                      {[...Array(rev.rating)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4" />
+                      ))}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{rev.comment}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </Card>
       </main>
 
