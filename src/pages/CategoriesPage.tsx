@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { getAllCategories } from "@/contexts/CategoriesService";
 
 // Category interface from API
 interface CategorySummary {
@@ -18,17 +19,17 @@ const CategoriesPage = () => {
   const [categories, setCategories] = useState<CategorySummary[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchCategories = async () => {
-    try {
-      const res = await fetch("http://localhost:3001/categories");
-      const data: CategorySummary[] = await res.json();
-      setCategories(data);
-    } catch (err) {
-      console.error("Error fetching categories:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+const fetchCategories = async () => {
+  try {
+    const data: CategorySummary[] = await getAllCategories(); // getAllCategories should return JSON already
+    setCategories(data);
+  } catch (err) {
+    console.error("Error fetching categories:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     fetchCategories();

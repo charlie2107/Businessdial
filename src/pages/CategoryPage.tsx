@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { getCategoryById } from "@/contexts/CategoriesService";
 
 // Interfaces for API response
 interface Category {
@@ -40,17 +41,20 @@ const CategoryPage = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchCategory = async () => {
-    try {
-      const res = await fetch(`http://localhost:3001/business/category/${slug}`);
-      const data: CategoryResponse = await res.json();
-      setCategoryData(data?.category ? data : null);
-      console.log(data);
-    } catch (err) {
-      console.error("Error fetching category:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    // Assuming getCategoryById(slug) already returns parsed JSON
+    const data: CategoryResponse = await getCategoryById(slug);
+
+    // If the API returns { category: ... }
+    setCategoryData(data?.category ? data : null);
+    console.log(data);
+  } catch (err) {
+    console.error("Error fetching category:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     fetchCategory();

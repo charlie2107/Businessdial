@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as LucideIcons from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { getAllCategories } from "@/contexts/CategoriesService";
 
 // Category interface from API
 interface CategorySummary {
@@ -18,9 +19,8 @@ export function Categories() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://localhost:3001/categories");
-      const data: CategorySummary[] = await res.json();
-      setCategories(data);
+     const data: CategorySummary[] = await getAllCategories(); // getAllCategories should return JSON already
+    setCategories(data);
     } catch (err) {
       console.error("Error fetching categories:", err);
     } finally {
@@ -69,7 +69,7 @@ export function Categories() {
               (LucideIcons as any)[category.icon] || LucideIcons.HelpCircle;
 
             return (
-              <Link key={category._id} to={`/category/${category.slug}`}>
+              <Link key={category._id} to={`/category/${category._id}`}>
                 <Button
                   variant="business"
                   className="h-auto flex-col p-6 space-y-3 text-center w-full"

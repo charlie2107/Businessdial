@@ -92,7 +92,7 @@ const BusinessDetail = () => {
                 <div>
                   <h1 className="text-2xl md:text-3xl font-bold">{business.name}</h1>
                   <div className="flex items-center gap-2 mt-2">
-                    <Badge variant="secondary">{business.category}</Badge>
+                    <Badge variant="secondary">{business.category?.name}</Badge>
                     <Badge variant="default" className="bg-success text-success-foreground">
                       Verified
                     </Badge>

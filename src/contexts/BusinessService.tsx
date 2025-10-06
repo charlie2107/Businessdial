@@ -1,25 +1,34 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:3001/business";
+// services/businessService.ts
+import api from '../services/api';
 
 export const submitBusinessListing = async (formData: FormData) => {
   try {
-    const response = await axios.post(API_URL, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+    const { data } = await api.post('/business', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
-    return response.data;
+    return data;
   } catch (error: any) {
-    console.error("Error submitting business:", error);
+    console.error('Error submitting business:', error);
     throw error.response?.data || error.message;
   }
 };
 
 export const getAllBusinesses = async () => {
-  const response = await axios.get(API_URL);
-  return response.data;
+  try {
+    const { data } = await api.get('/business');
+    return data;
+  } catch (error: any) {
+    console.error('Error fetching businesses:', error);
+    throw error.response?.data || error.message;
+  }
 };
 
 export const getBusinessById = async (id: string) => {
-  const response = await axios.get(`${API_URL}/${id}`);
-  return response.data;
+  try {
+    const { data } = await api.get(`/business/${id}`);
+    return data;
+  } catch (error: any) {
+    console.error(`Error fetching business with id ${id}:`, error);
+    throw error.response?.data || error.message;
+  }
 };
