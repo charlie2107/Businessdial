@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Star, MapPin, Phone, Clock, ExternalLink, Share2, Heart } from "lucide-react";
+import { Star, MapPin, Phone, Clock, ExternalLink, Share2, Heart, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/layout/Header";
@@ -16,6 +16,10 @@ const BusinessDetail = () => {
   const [business, setBusiness] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Lightbox state
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<string>("");
 
   useEffect(() => {
     const fetchBusiness = async () => {
@@ -32,6 +36,16 @@ const BusinessDetail = () => {
     };
     fetchBusiness();
   }, [id]);
+
+  const openLightbox = (image: string) => {
+    setLightboxImage(image);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    setLightboxImage("");
+  };
 
   if (loading) {
     return (
@@ -57,14 +71,17 @@ const BusinessDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="container mx-auto px-4 py-6 space-y-6">
         {/* Hero Section */}
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="aspect-video rounded-lg overflow-hidden">
-              <img 
+            <div
+              className="aspect-video rounded-lg overflow-hidden cursor-pointer"
+              onClick={() => openLightbox(business.photos?.[0] || "/placeholder.png")}
+            >
+              <img
                 src={business.photos?.[0] || "/placeholder.png"}
                 alt={business.name}
                 className="w-full h-full object-cover"
@@ -73,11 +90,15 @@ const BusinessDetail = () => {
             {business.photos?.length > 1 && (
               <div className="grid grid-cols-3 gap-2">
                 {business.photos.slice(1, 4).map((image: string, index: number) => (
-                  <div key={index} className="aspect-square rounded-lg overflow-hidden">
-                    <img 
+                  <div
+                    key={index}
+                    className="aspect-square rounded-lg overflow-hidden cursor-pointer"
+                    onClick={() => openLightbox(image)}
+                  >
+                    <img
                       src={image}
                       alt={`${business.name} ${index + 2}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform cursor-pointer"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform"
                     />
                   </div>
                 ))}
@@ -128,7 +149,11 @@ const BusinessDetail = () => {
               {business.website && (
                 <div className="flex items-center gap-3">
                   <ExternalLink className="h-4 w-4 text-primary" />
-                  <a href={business.website} target="_blank" className="text-sm text-primary hover:underline">
+                  <a
+                    href={business.website}
+                    target="_blank"
+                    className="text-sm text-primary hover:underline"
+                  >
                     {business.website}
                   </a>
                 </div>
@@ -160,6 +185,26 @@ const BusinessDetail = () => {
           <p className="text-muted-foreground text-sm">No reviews yet.</p>
         </Card>
       </main>
+
+      {/* Lightbox Overlay */}
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+          onClick={closeLightbox}
+        >
+          <button
+            className="absolute top-4 right-4 text-white"
+            onClick={closeLightbox}
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <img
+            src={lightboxImage}
+            alt="Full view"
+            className="max-h-[90%] max-w-[90%] object-contain"
+          />
+        </div>
+      )}
 
       <Footer />
     </div>

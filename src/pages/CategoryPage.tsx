@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Star, MapPin, Phone, Clock, ExternalLink } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Star, MapPin, Phone, Clock } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getCategoryById } from "@/contexts/CategoriesService";
 
-// Interfaces for API response
+// Interfaces
 interface Category {
   _id: string;
   name: string;
@@ -19,14 +19,14 @@ interface Category {
 interface Business {
   _id: string;
   name: string;
-  image: string;
+  photos: string[]; // updated to match API
   description: string;
   address: string;
   phone: string;
-  rating: number;
-  reviews: number;
-  verified: boolean;
-  isOpen: boolean;
+  rating?: number;
+  reviews?: number;
+  verified?: boolean;
+  isOpen?: boolean;
 }
 
 interface CategoryResponse {
@@ -37,24 +37,27 @@ interface CategoryResponse {
 
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [categoryData, setCategoryData] = useState<CategoryResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchCategory = async () => {
-  try {
-    // Assuming getCategoryById(slug) already returns parsed JSON
-    const data: CategoryResponse = await getCategoryById(slug);
+    try {
+      const data: CategoryResponse = await getCategoryById(slug);
 
-    // If the API returns { category: ... }
-    setCategoryData(data?.category ? data : null);
-    console.log(data);
-  } catch (err) {
-    console.error("Error fetching category:", err);
-  } finally {
-    setLoading(false);
-  }
-};
+      // Map businesses to include `image` from photos[0]
+      const transformedBusinesses = data.businesses.map(b => ({
+        ...b,
+        image: b.photos[0] || "",
+      }));
 
+      setCategoryData({ ...data, businesses: transformedBusinesses });
+    } catch (err) {
+      console.error("Error fetching category:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchCategory();
@@ -97,7 +100,8 @@ const CategoryPage = () => {
               {businesses.map((business) => (
                 <div
                   key={business._id}
-                  className="bg-card rounded-lg border overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  className="bg-card rounded-lg border overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                  onClick={() => navigate(`/business/${business._id}`)} // whole card clickable
                 >
                   {/* Business Image */}
                   <div className="relative h-48 overflow-hidden">
@@ -126,8 +130,8 @@ const CategoryPage = () => {
                       <h3 className="text-xl font-semibold">{business.name}</h3>
                       <div className="flex items-center space-x-1 text-sm">
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{business.rating}</span>
-                        <span className="text-muted-foreground">({business.reviews})</span>
+                        <span className="font-medium">{business.rating || 0}</span>
+                        <span className="text-muted-foreground">({business.reviews || 0})</span>
                       </div>
                     </div>
 
@@ -160,12 +164,6 @@ const CategoryPage = () => {
                           Call
                         </a>
                       </Button>
-                      <Button variant="outline" size="sm" className="flex-1" asChild>
-                        <Link to={`/business/${business._id}`}>
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          View
-                        </Link>
-                      </Button>
                     </div>
                   </div>
                 </div>
@@ -177,7 +175,7 @@ const CategoryPage = () => {
                 No businesses found in this category yet.
               </p>
               <Button variant="outline" asChild>
-                <Link to="/categories">Browse All Categories</Link>
+                <a href="/categories">Browse All Categories</a>
               </Button>
             </div>
           )}
